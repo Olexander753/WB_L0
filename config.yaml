@@ -1,0 +1,6 @@
+postgres: 
+  db: WBL0
+  user: user
+  password: user
+nats:
+  address: nats:4222

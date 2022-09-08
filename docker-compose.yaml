@@ -1,6 +1,14 @@
 version: "3.6"
 
 services:  
+  models:
+    build: "."
+    command: "models-service"
+    depends_on:
+      - "postgres"
+      - "nats"
+    ports:
+      - "8080"
   postgres:
     build: "./postgres"
     restart: "always"
@@ -8,3 +16,6 @@ services:
       POSTGRES_DB: "WB_L0"
       POSTGRES_USER: "user"
       POSTGRES_PASSWORD: "user"
+  nats:
+    image: "nats-streaming:0.9.2"
+    restart: "always"

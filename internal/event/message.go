@@ -1,6 +1,10 @@
-package schema
+package event
 
-type Model struct {
+type Message interface {
+	Key() string
+}
+
+type ModelCreatedMessage struct {
 	Order_uid    string `json:"order_uid"`
 	Track_number string `json:"track_number"`
 	Entry        string `json:"entry"`
@@ -46,4 +50,8 @@ type Model struct {
 	Sm_id              int    `json:"sm_id"`
 	Date_created       string `json:"date_created"`
 	Oof_shard          int    `json:"oof_shard"`
+}
+
+func (m *ModelCreatedMessage) Key() string {
+	return "model.create"
 }

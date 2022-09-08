@@ -1,55 +1,59 @@
+DROP TABLE IS EXISTS Item
+DROP TABLE IS EXISTS Payment
+DROP TABLE IS EXISTS Delivery
 DROP TABLE IS EXISTS Models
 
 CREATE TABLE Models(
-	order_uid 			VARCHAR(256)
-	track_number 		VARCHAR(256) 
-	entry        		VARCHAR(256)
-	locale 				VARCHAR(256) 
-	internal_signature 	VARCHAR(256) 
-	customer_id 		VARCHAR(256) 
-	delivery_service 	VARCHAR(256)
-	shardkey 			int    
-	sm_id 				int    
-	date_created 		VARCHAR(256)
-	oof_shard 			int    
-	delivery_id 		int
-	transction 
+	order_uid 			VARCHAR(256) PRYMARY KEY,
+	track_number 		VARCHAR(256) NOT NULL,
+	entry        		VARCHAR(256) NOT NULL,
+	locale 				VARCHAR(256) NOT NULL,
+	INTernal_signature 	VARCHAR(256) NOT NULL,
+	customer_id 		VARCHAR(256) NOT NULL,
+	delivery_service 	VARCHAR(256) NOT NULL,
+	shardkey 			INT NOT NULL,
+	sm_id 				INT NOT NULL,
+	date_created 		VARCHAR(256) NOT NULL,
+	oof_shard 			INT NOT NULL,
+	delivery_id 		INT NOT NULL,
+	transction 			VARCHAR(256) NOT NULL,
+	chrt_id				INT NOT NULL,
 );
 
 CREATE TABLE Delivery(
-	id 		int
-	name    VARCHAR(256)
-	phone   VARCHAR(256)
-	zip     int 
-	city    VARCHAR(256)
-	address VARCHAR(256)
-	region  VARCHAR(256)
-	email   VARCHAR(256)
+	id 		INT PRYMARY KEY
+	name    VARCHAR(256) NOT NULL,
+	phone   VARCHAR(256) NOT NULL,
+	zip     INT NOT NULL,
+	city    VARCHAR(256) NOT NULL,
+	address VARCHAR(256) NOT NULL,
+	region  VARCHAR(256) NOT NULL,
+	email   VARCHAR(256) NOT NULL,
 );
 		
 CREATE TABLE	Payment (
-	transaction   VARCHAR(256)
-	request_id    int    
-	currency      VARCHAR(256)
-	provider      VARCHAR(256)
-	amount        int    
-	payment_dt    int    
-	bank          VARCHAR(256)
-	delivery_cost int    
-	goods_total   int    
-	custom_fee    int    
+	transaction   VARCHAR(256) PRYMARY KEY
+	request_id    INT NOT NULL,
+	currency      VARCHAR(256) NOT NULL,
+	provider      VARCHAR(256) NOT NULL,
+	amount        INT NOT NULL,
+	payment_dt    INT NOT NULL,
+	bank          VARCHAR(256) NOT NULL,
+	delivery_cost INT NOT NULL,
+	goods_total   INT NOT NULL,
+	custom_fee    INT NOT NULL,
 );
 
 CREATE TABLE Item (
-	chrt_id      	int   
-	track_number	VARCHAR(256)
-	price        	int    
-	rid           	VARCHAR(256)
-	name          	VARCHAR(256)
-	sale         	int    
-	size         	int    
-	total_price  	int    
-	nm_id        	int    
-	brand        	VARCHAR(256) 
-	status       	int    
+	chrt_id      	INT PRYMARY KEY 
+	track_number	VARCHAR(256) NOT NULL,
+	price        	INT NOT NULL,    
+	rid           	VARCHAR(256) NOT NULL,
+	name          	VARCHAR(256) NOT NULL,
+	sale         	INT NOT NULL,    
+	size         	INT NOT NULL,   
+	total_price  	INT NOT NULL,    
+	nm_id        	INT NOT NULL,    
+	brand        	VARCHAR(256) NOT NULL, 
+	status       	INT NOT NULL,    
 );
