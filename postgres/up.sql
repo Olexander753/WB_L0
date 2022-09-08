@@ -1,57 +1,55 @@
 DROP TABLE IS EXISTS Models
 
 CREATE TABLE Models(
-	order_uid VARCHAR(256)
-	track_number VARCHAR(256) 
-	entry        VARCHAR(256));
+	order_uid 			VARCHAR(256)
+	track_number 		VARCHAR(256) 
+	entry        		VARCHAR(256)
+	locale 				VARCHAR(256) 
+	internal_signature 	VARCHAR(256) 
+	customer_id 		VARCHAR(256) 
+	delivery_service 	VARCHAR(256)
+	shardkey 			int    
+	sm_id 				int    
+	date_created 		VARCHAR(256)
+	oof_shard 			int    
+	delivery_id 		int
+	transction 
+);
 
 CREATE TABLE Delivery(
-Name    string 
-		Phone   string
-		Zip     int 
-		City    string
-		Address string
-		Region  string
-		Email   string 
-)
+	id 		int
+	name    VARCHAR(256)
+	phone   VARCHAR(256)
+	zip     int 
+	city    VARCHAR(256)
+	address VARCHAR(256)
+	region  VARCHAR(256)
+	email   VARCHAR(256)
+);
 		
-
-
 CREATE TABLE	Payment (
-		Transaction   string `json:"transaction"`
-		Request_id    int    `json:"request_id"`
-		Currency      string `json:"currency"`
-		Provider      string `json:"provider"`
-		Amount        int    `json:"amount"`
-		Payment_dt    int    `json:"payment_dt"`
-		Bank          string `json:"bank"`
-		Delivery_cost int    `json:"delivery_cost"`
-		Goods_total   int    `json:"goods_total"`
-		Custom_fee    int    `json:"custom_fee"`
-)
-    	Items              []Item `json:"items"`
-	Locale             string `json:"locale"`
-	Internal_signature string `json:"internal_signature"`
-	Customer_id        string `json:"customer_id"`
-	Delivery_service   string `json:"delivery_service"`
-	Shardkey           int    `json:"shardkey"`
-	Sm_id              int    `json:"sm_id"`
-	Date_created       string `json:"date_created"`
-	Oof_shard          int    `json:"oof_shard"`
-}
+	transaction   VARCHAR(256)
+	request_id    int    
+	currency      VARCHAR(256)
+	provider      VARCHAR(256)
+	amount        int    
+	payment_dt    int    
+	bank          VARCHAR(256)
+	delivery_cost int    
+	goods_total   int    
+	custom_fee    int    
+);
 
-type Item struct {
-	Chrt_id      int    `json:"chrt_id"`
-	Track_number string `json:"track_number"`
-	Price        int    `json:"price"`
-	Rid          string `json:"rid"`
-	Name         string `json:"name"`
-	Sale         int    `json:"sale"`
-	Size         int    `json:"size"`
-	Total_price  int    `json:"total_price"`
-	Nm_id        int    `json:"nm_id"`
-	Brand        string `json:"brand"`
-	Status       int    `json:"status"`
-}
-
-)
+CREATE TABLE Item (
+	chrt_id      	int   
+	track_number	VARCHAR(256)
+	price        	int    
+	rid           	VARCHAR(256)
+	name          	VARCHAR(256)
+	sale         	int    
+	size         	int    
+	total_price  	int    
+	nm_id        	int    
+	brand        	VARCHAR(256) 
+	status       	int    
+);
