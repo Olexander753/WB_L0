@@ -4,7 +4,7 @@ DROP TABLE IS EXISTS Delivery
 DROP TABLE IS EXISTS Models
 
 CREATE TABLE Models(
-	order_uid 			VARCHAR(256) PRYMARY KEY,
+	order_uid 			VARCHAR(256) PRIMARY KEY,
 	track_number 		VARCHAR(256) NOT NULL,
 	entry        		VARCHAR(256) NOT NULL,
 	locale 				VARCHAR(256) NOT NULL,
@@ -17,22 +17,20 @@ CREATE TABLE Models(
 	oof_shard 			INT NOT NULL,
 	delivery_id 		INT NOT NULL,
 	transction 			VARCHAR(256) NOT NULL,
-	chrt_id				INT NOT NULL,
-);
+	chrt_id				INT NOT NULL);
 
 CREATE TABLE Delivery(
-	id 		INT PRYMARY KEY
+	id 		INT PRIMARY KEY,
 	name    VARCHAR(256) NOT NULL,
 	phone   VARCHAR(256) NOT NULL,
 	zip     INT NOT NULL,
 	city    VARCHAR(256) NOT NULL,
 	address VARCHAR(256) NOT NULL,
 	region  VARCHAR(256) NOT NULL,
-	email   VARCHAR(256) NOT NULL,
-);
+	email   VARCHAR(256) NOT NULL);
 		
 CREATE TABLE	Payment (
-	transaction   VARCHAR(256) PRYMARY KEY
+	transaction   VARCHAR(256) PRIMARY KEY,
 	request_id    INT NOT NULL,
 	currency      VARCHAR(256) NOT NULL,
 	provider      VARCHAR(256) NOT NULL,
@@ -41,11 +39,10 @@ CREATE TABLE	Payment (
 	bank          VARCHAR(256) NOT NULL,
 	delivery_cost INT NOT NULL,
 	goods_total   INT NOT NULL,
-	custom_fee    INT NOT NULL,
-);
+	custom_fee    INT NOT NULL);
 
 CREATE TABLE Item (
-	chrt_id      	INT PRYMARY KEY 
+	chrt_id      	INT PRIMARY KEY,
 	track_number	VARCHAR(256) NOT NULL,
 	price        	INT NOT NULL,    
 	rid           	VARCHAR(256) NOT NULL,
@@ -55,5 +52,4 @@ CREATE TABLE Item (
 	total_price  	INT NOT NULL,    
 	nm_id        	INT NOT NULL,    
 	brand        	VARCHAR(256) NOT NULL, 
-	status       	INT NOT NULL,    
-);
+	status       	INT NOT NULL);

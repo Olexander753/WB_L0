@@ -9,9 +9,12 @@ import (
 
 type Config struct {
 	Postgres struct {
-		DB       string `yaml:"db"`
-		User     string `yaml:"user"`
+		Host     string `yaml:"host"`
+		Port     string `yaml:"port"`
+		Username string `yaml:"user"`
 		Password string `yaml:"password"`
+		DBName   string `yaml:"db"`
+		SSLMode  string `yaml:"sslmode"`
 	} `yaml:"postgres"`
 	Nats struct {
 		Address string `yaml:"address"`

@@ -1,6 +1,9 @@
 postgres: 
-  db: WBL0
-  user: user
+  host: 172.17.0.3
+  port: 5432
+  user: postgres
   password: user
+  db: WBL0
+  sslmode: disable
 nats:
-  address: nats:4222
+  address: localhost:4222
