@@ -16,6 +16,7 @@ type NatsEventStore struct {
 }
 
 func NewNats(url string) (*NatsEventStore, error) {
+	log.Println("Connect to nats")
 	nc, err := nats.Connect(url)
 	if err != nil {
 		return nil, err

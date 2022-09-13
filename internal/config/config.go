@@ -19,6 +19,9 @@ type Config struct {
 	Nats struct {
 		Address string `yaml:"address"`
 	} `yaml:"nats"`
+	Server struct {
+		Port string `yaml:"port"`
+	} `yaml:"server"`
 }
 
 var instance *Config
