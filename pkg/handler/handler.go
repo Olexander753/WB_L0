@@ -18,8 +18,8 @@ func (h *Handler) InutRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		api.POST("/", h.postModel)    //создание модели
-		api.GET("/", h.getModelsByID) //вывод моделей
+		api.POST("/", h.postModel)       //создание модели
+		api.GET("/:uid", h.getModelByID) //вывод моделей
 	}
 	return router
 }

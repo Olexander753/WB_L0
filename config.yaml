@@ -3,7 +3,7 @@ postgres:
   port: 5436
   user: postgres
   password: qwerty
-  db: wbl0
+  db: postgres
   sslmode: disable
 nats:
   address: localhost:4222

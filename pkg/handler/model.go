@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -8,9 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type getResponse struct {
-	Data []schema.Model `json:"data"`
-}
+// type getResponse struct {
+// 	Data schema.Model `json:"data"`
+// }
 
 func (h *Handler) postModel(c *gin.Context) {
 	var input schema.Model
@@ -19,31 +20,29 @@ func (h *Handler) postModel(c *gin.Context) {
 		log.Fatal("error input 1: ", err)
 	}
 
-	// id, err := h.db.InsertModel(input)
-	// if err != nil {
-	// 	log.Fatal("error insert: ", err)
-	// }
+	uid, err := h.services.InsertModel(c, input)
+	if err != nil {
+		log.Fatal("error insert: ", err)
+	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
+		"uid":     uid,
 		"message": "model успешно создана",
 	})
 }
 
-func (h *Handler) getModelsByID(c *gin.Context) {
+func (h *Handler) getModelByID(c *gin.Context) {
 	var input schema.Model
-	var list []schema.Model
+	input.Order_uid = c.Param("uid")
 
-	if err := c.BindJSON(&input); err != nil {
-		log.Fatal("error input 3: ", err)
+	output, err := h.services.SelectModel(c, input.Order_uid)
+	output.Order_uid = input.Order_uid
+
+	if err != nil {
+		log.Fatal("error get list 1: ", err)
 	}
 
-	// list, err := h.services.TransactionsList.GetListByID(input.User_id)
+	fmt.Println(output)
 
-	// if err != nil {
-	// 	log.Fatal("error get list 1: ", err)
-	// }
-
-	c.JSON(http.StatusOK, getResponse{
-		Data: list,
-	})
+	c.JSON(http.StatusOK, output)
 }

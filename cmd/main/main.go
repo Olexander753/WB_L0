@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+
 	cfg := config.GetConfig()
 
 	//connect to postgresql db
