@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/Olexander753/WB_L0/internal/cach"
 	"github.com/Olexander753/WB_L0/internal/config"
 	"github.com/Olexander753/WB_L0/internal/event"
 	"github.com/Olexander753/WB_L0/internal/server"
@@ -30,7 +31,11 @@ func main() {
 	event.SetEventStore(es)
 	defer event.Close()
 
-	repo := repository.NewRepository(db)
+	//create cach
+	ce := cach.NewCach(db)
+	ce.SelectModels()
+
+	repo := repository.NewRepository(db, ce)
 	services := service.NewService(repo)
 	handlers := handler.NewHandler(services)
 

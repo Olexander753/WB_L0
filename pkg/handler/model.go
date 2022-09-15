@@ -9,10 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// type getResponse struct {
-// 	Data schema.Model `json:"data"`
-// }
-
 func (h *Handler) postModel(c *gin.Context) {
 	var input schema.Model
 

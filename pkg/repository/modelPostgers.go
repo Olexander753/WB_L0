@@ -5,16 +5,19 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/Olexander753/WB_L0/internal/cach"
 	"github.com/Olexander753/WB_L0/internal/schema"
 	"github.com/jmoiron/sqlx"
 )
 
 type modelPostgres struct {
 	db *sqlx.DB
+	ce *cach.Cach
 }
 
-func NewModelPostgres(db *sqlx.DB) *modelPostgres {
-	return &modelPostgres{db: db}
+func NewModelPostgres(db *sqlx.DB, ce *cach.Cach) *modelPostgres {
+	return &modelPostgres{db: db,
+		ce: ce}
 }
 
 func (m *modelPostgres) InsertModel(ctx context.Context, model schema.Model) (string, error) {
@@ -27,11 +30,12 @@ func (m *modelPostgres) InsertModel(ctx context.Context, model schema.Model) (st
 	}
 	//fmt.Println(string(b))
 
-	query := fmt.Sprintf("INSERT INTO %s values($1, $2) RETURNING order_uid ;", modelsTable)
+	query := fmt.Sprintf("INSERT INTO %s values($1, $2) RETURNING order_uid ;", ModelsTable)
 	row := m.db.QueryRow(query, insertModelOrder_uid, b)
 	if err := row.Scan(&uid); err != nil {
 		return "", err
 	}
+	m.ce.Models[insertModelOrder_uid] = model
 	return uid, nil
 	// var uid string
 	// query := fmt.Sprintf("DO $$\nDECLARE\n\ttotal_rows integer;\nBEGIN\n\tINSERT INTO %s values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);\n\tINSERT INTO %s values($12,$13,$14,$15,$16,$17,$18,$19,$20);\n\tINSERT INTO %s values($21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31);\n\tINSERT INTO %s values($32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,#43);\n\tGET DIAGNOSTICS total_rows := ROW_COUNT;\n\tIF total_rows != 4 THEN\n\t\tROLLBACK;\n\tELSE COMMIT;\n\t\tEND IF;\n\tRETURN Model.order_uid;\nEND $$;", modelsTable, deliveryTable, paymentTable, itemTable)
@@ -45,25 +49,24 @@ func (m *modelPostgres) InsertModel(ctx context.Context, model schema.Model) (st
 	// return uid, nil
 }
 
-func (m *modelPostgres) SelectModel(ctx context.Context, uid string) (schema.Model, error) {
-	var mod struct {
-		Order_uid string `json:"order_uid" db:"order_uid"`
-		Body      string `json:"body" db:"boody"`
-	}
-	var model schema.Model
-
-	query := fmt.Sprintf("SELECT * FROM %s WHERE order_uid = $1", modelsTable)
-	err := m.db.Get(&mod, query, uid)
-	if err != nil {
-		fmt.Println(err)
-		return model, err
-	}
-	fmt.Println(mod)
-	err = json.Unmarshal([]byte(mod.Body), &model)
-	if err != nil {
-		fmt.Println(err)
-		return model, err
-	}
-
+func (m *modelPostgres) SelectModel(ctx context.Context, order_uid string) (schema.Model, error) {
+	// var mod struct {
+	// 	Order_uid string `json:"order_uid" db:"order_uid"`
+	// 	Body      string `json:"body" db:"boody"`
+	// }
+	//
+	// query := fmt.Sprintf("SELECT * FROM %s WHERE order_uid = $1", ModelsTable)
+	// err := m.db.Get(&mod, query, uid)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return model, err
+	// }
+	// fmt.Println(mod)
+	// err = json.Unmarshal([]byte(mod.Body), &model)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return model, err
+	// }
+	model, err := m.ce.GetModelByOrder_uid(order_uid)
 	return model, err
 }

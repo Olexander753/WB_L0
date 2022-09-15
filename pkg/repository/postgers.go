@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	modelsTable = "Model"
+	ModelsTable = "Model"
 )
 
 func NewPostgres(cfg *config.Config) (*sqlx.DB, error) {
