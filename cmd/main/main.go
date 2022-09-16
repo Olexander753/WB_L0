@@ -5,7 +5,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/Olexander753/WB_L0/internal/cach"
 	"github.com/Olexander753/WB_L0/internal/config"
 	"github.com/Olexander753/WB_L0/internal/event"
 	"github.com/Olexander753/WB_L0/internal/server"
@@ -27,7 +26,7 @@ func main() {
 	}
 
 	//create cach
-	ce := cach.NewCach(db)
+	ce := repository.NewCach(db)
 	ce.SelectModels()
 
 	repo := repository.NewRepository(db, ce)
@@ -41,12 +40,12 @@ func main() {
 			log.Println("Failed connect to nats, error: ", err)
 			return err
 		}
-		err = es.OnModelCreated()
+		err = es.CreateModel()
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		event.SetEventStore(es)
+		//event.SetEventStore(es)
 		return nil
 	})
 	defer event.Close()

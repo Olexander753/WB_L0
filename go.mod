@@ -7,7 +7,8 @@ require (
 	github.com/ilyakaznacheev/cleanenv v1.3.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.7
-	github.com/nats-io/nats.go v1.16.1-0.20220906180156-a1017eec10b0
+	github.com/nats-io/stan.go v0.10.3
+	github.com/tinrab/retry v1.0.0
 )
 
 require (
@@ -26,11 +27,11 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nats-io/nats-server/v2 v2.9.0 // indirect
+	github.com/nats-io/nats-streaming-server v0.24.6 // indirect
+	github.com/nats-io/nats.go v1.16.1-0.20220906180156-a1017eec10b0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nats-io/stan.go v0.10.3 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
-	github.com/tinrab/retry v1.0.0 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 // indirect
 	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect

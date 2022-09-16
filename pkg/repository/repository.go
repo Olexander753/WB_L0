@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 
-	"github.com/Olexander753/WB_L0/internal/cach"
 	"github.com/Olexander753/WB_L0/internal/schema"
 	"github.com/jmoiron/sqlx"
 )
@@ -13,12 +12,12 @@ type Model interface {
 	SelectModel(ctx context.Context, uid string) (schema.Model, error)
 }
 
-type Repository struct {
+type Storage struct {
 	Model
 }
 
-func NewRepository(db *sqlx.DB, ce *cach.Cach) *Repository {
-	return &Repository{
-		Model: NewModelPostgres(db, ce),
+func NewRepository(db *sqlx.DB, ce *Cach) *Storage {
+	return &Storage{
+		Model: NewModelSrorage(db, ce),
 	}
 }

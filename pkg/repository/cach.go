@@ -1,4 +1,4 @@
-package cach
+package repository
 
 import (
 	"encoding/json"
@@ -14,10 +14,6 @@ type Cach struct {
 	Models map[string]schema.Model
 	db     *sqlx.DB
 }
-
-const (
-	modelsTable = "Model"
-)
 
 var once sync.Once
 
@@ -46,7 +42,7 @@ func (c *Cach) SelectModels() {
 		}
 		var model schema.Model
 
-		query := fmt.Sprintf("SELECT * FROM %s", modelsTable)
+		query := fmt.Sprintf("SELECT * FROM %s", "Model")
 		err := c.db.Select(&mod, query)
 		if err != nil {
 			log.Fatal(err)
