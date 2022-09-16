@@ -1,4 +1,4 @@
-package event
+package service
 
 import (
 	"context"
@@ -17,8 +17,8 @@ const (
 )
 
 type NatsEventStore struct {
-	nc   stan.Conn
-	repo *repository.Storage
+	nc    stan.Conn
+	model repository.Model
 }
 
 func NewNats(url string, repo *repository.Storage) (*NatsEventStore, error) {
@@ -27,8 +27,9 @@ func NewNats(url string, repo *repository.Storage) (*NatsEventStore, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &NatsEventStore{nc: nc,
-		repo: repo}, nil
+	return &NatsEventStore{
+		nc:    nc,
+		model: NewModelService(repo.Model)}, nil
 }
 
 func (es *NatsEventStore) Close() {
@@ -41,7 +42,7 @@ func (es *NatsEventStore) CreateModel() (err error) {
 	m := schema.Model{}
 	_, err = es.nc.Subscribe(key, func(msg *stan.Msg) {
 		json.Unmarshal(msg.Data, &m)
-		uid, err := es.repo.InsertModel(context.Background(), m)
+		uid, err := es.model.InsertModel(context.Background(), m)
 		if err != nil {
 			log.Fatal(err)
 		}

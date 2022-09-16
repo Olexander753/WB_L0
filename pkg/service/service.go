@@ -19,10 +19,23 @@ type EventStore interface {
 
 type Service struct {
 	Model
+	event EventStore
 }
 
 func NewService(repo *repository.Storage) *Service {
 	return &Service{
 		Model: NewModelService(repo.Model),
 	}
+}
+
+func (s *Service) SetEventStore(es EventStore) {
+	s.event = es
+}
+
+func (s *Service) Close() {
+	s.event.Close()
+}
+
+func (s *Service) CreatedModel() error {
+	return s.event.CreateModel()
 }

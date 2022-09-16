@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/Olexander753/WB_L0/internal/config"
-	"github.com/Olexander753/WB_L0/internal/event"
 	"github.com/Olexander753/WB_L0/internal/server"
 	"github.com/Olexander753/WB_L0/pkg/handler"
 	"github.com/Olexander753/WB_L0/pkg/repository"
@@ -35,7 +34,7 @@ func main() {
 
 	//connect to nats
 	retry.ForeverSleep(2*time.Second, func(_ int) error {
-		es, err := event.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address), repo)
+		es, err := service.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address), repo)
 		if err != nil {
 			log.Println("Failed connect to nats, error: ", err)
 			return err
@@ -45,10 +44,10 @@ func main() {
 			log.Println(err)
 			return err
 		}
-		//event.SetEventStore(es)
+		services.SetEventStore(es)
 		return nil
 	})
-	defer event.Close()
+	defer services.Close()
 
 	//create http router
 	srv := new(server.Server)
