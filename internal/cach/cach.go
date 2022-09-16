@@ -42,7 +42,7 @@ func (c *Cach) SelectModels() {
 
 		var mod []struct {
 			Order_uid string `json:"order_uid" db:"order_uid"`
-			Body      string `json:"body" db:"boody"`
+			Body      string `json:"body" db:"body"`
 		}
 		var model schema.Model
 

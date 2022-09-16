@@ -2,7 +2,7 @@ postgres:
   host: 0.0.0.0
   port: 5436
   user: postgres
-  password: qwerty
+  password: qwe
   db: postgres
   sslmode: disable
 nats:

@@ -28,7 +28,6 @@ func (m *modelPostgres) InsertModel(ctx context.Context, model schema.Model) (st
 	if err != nil {
 		return "", err
 	}
-	//fmt.Println(string(b))
 
 	query := fmt.Sprintf("INSERT INTO %s values($1, $2) RETURNING order_uid ;", ModelsTable)
 	row := m.db.QueryRow(query, insertModelOrder_uid, b)

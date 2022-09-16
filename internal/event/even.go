@@ -4,9 +4,8 @@ import "github.com/Olexander753/WB_L0/internal/schema"
 
 type EventStore interface {
 	Close()
-	PublishModelCreated(model schema.Model) error
-	SubscribeModelCreated() (<-chan ModelCreatedMessage, error)
-	OnModelCreated(f func(ModelCreatedMessage)) error
+	// PublishModelCreated(model schema.Model) error
+	OnModelCreated(f func(schema.Model)) error
 }
 
 var event EventStore
@@ -19,14 +18,10 @@ func Close() {
 	event.Close()
 }
 
-func PublishModelCreated(model schema.Model) error {
-	return event.PublishModelCreated(model)
-}
+// func PublishModelCreated(model schema.Model) error {
+// 	return event.PublishModelCreated(model)
+// }
 
-func SubscribeModelCreated() (<-chan ModelCreatedMessage, error) {
-	return event.SubscribeModelCreated()
-}
-
-func OnModelCreated(f func(ModelCreatedMessage)) error {
+func OnModelCreated(f func(schema.Model)) error {
 	return event.OnModelCreated(f)
 }

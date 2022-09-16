@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/Olexander753/WB_L0/internal/cach"
 	"github.com/Olexander753/WB_L0/internal/config"
@@ -11,10 +12,12 @@ import (
 	"github.com/Olexander753/WB_L0/pkg/handler"
 	"github.com/Olexander753/WB_L0/pkg/repository"
 	"github.com/Olexander753/WB_L0/pkg/service"
+	"github.com/gin-gonic/gin"
+	"github.com/tinrab/retry"
 )
 
 func main() {
-
+	gin.SetMode(gin.ReleaseMode)
 	cfg := config.GetConfig()
 
 	//connect to postgresql db
@@ -24,11 +27,20 @@ func main() {
 	}
 
 	//connect to nats
-	es, err := event.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address))
-	if err != nil {
-		log.Println("Failed connect to nats, error: ", err)
-	}
-	event.SetEventStore(es)
+	retry.ForeverSleep(2*time.Second, func(_ int) error {
+		es, err := event.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address))
+		if err != nil {
+			log.Println("Failed connect to nats, error: ", err)
+			return err
+		}
+		err = es.OnModelCreated(event.ModelCreated)
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+		event.SetEventStore(es)
+		return nil
+	})
 	defer event.Close()
 
 	//create cach
@@ -46,4 +58,5 @@ func main() {
 	if err != nil {
 		log.Fatal("error http server: ", err)
 	}
+
 }
