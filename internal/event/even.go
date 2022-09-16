@@ -1,11 +1,9 @@
 package event
 
-import "github.com/Olexander753/WB_L0/internal/schema"
-
 type EventStore interface {
 	Close()
 	// PublishModelCreated(model schema.Model) error
-	OnModelCreated(f func(schema.Model)) error
+	OnModelCreated() error
 }
 
 var event EventStore
@@ -22,6 +20,6 @@ func Close() {
 // 	return event.PublishModelCreated(model)
 // }
 
-func OnModelCreated(f func(schema.Model)) error {
-	return event.OnModelCreated(f)
+func OnModelCreated() error {
+	return event.OnModelCreated()
 }

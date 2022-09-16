@@ -26,14 +26,22 @@ func main() {
 		log.Println("Failed connect to postgres, error: ", err)
 	}
 
+	//create cach
+	ce := cach.NewCach(db)
+	ce.SelectModels()
+
+	repo := repository.NewRepository(db, ce)
+	services := service.NewService(repo)
+	handlers := handler.NewHandler(services)
+
 	//connect to nats
 	retry.ForeverSleep(2*time.Second, func(_ int) error {
-		es, err := event.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address))
+		es, err := event.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address), repo)
 		if err != nil {
 			log.Println("Failed connect to nats, error: ", err)
 			return err
 		}
-		err = es.OnModelCreated(event.ModelCreated)
+		err = es.OnModelCreated()
 		if err != nil {
 			log.Println(err)
 			return err
@@ -42,14 +50,6 @@ func main() {
 		return nil
 	})
 	defer event.Close()
-
-	//create cach
-	ce := cach.NewCach(db)
-	ce.SelectModels()
-
-	repo := repository.NewRepository(db, ce)
-	services := service.NewService(repo)
-	handlers := handler.NewHandler(services)
 
 	//create http router
 	srv := new(server.Server)
