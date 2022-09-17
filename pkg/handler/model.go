@@ -1,12 +1,18 @@
 package handler
 
 import (
+	"fmt"
+	"html/template"
 	"log"
-	"net/http"
 
 	"github.com/Olexander753/WB_L0/internal/schema"
 	"github.com/gin-gonic/gin"
 )
+
+type ViewData struct {
+	Title   string
+	Message string
+}
 
 func (h *Handler) getModelByID(c *gin.Context) {
 	var input schema.Model
@@ -21,5 +27,14 @@ func (h *Handler) getModelByID(c *gin.Context) {
 
 	log.Println("Get model, order_uid = ", output.Order_uid)
 
-	c.JSON(http.StatusOK, output)
+	data := ViewData{
+		Title:   "Model",
+		Message: output.PrintModel(),
+	}
+	//fmt.Println(data.Message)
+	parce := fmt.Sprintf("<html><head> <meta charset=\"utf-8\"><style>li {list-style-type: none;}</style></head><body><div> <h1>%s</h1> <p>%s</p> </div>", data.Title, data.Message)
+	tmpl := template.Must(template.New("data").Parse(parce))
+	tmpl.Execute(c.Writer, data)
+
+	//c.JSON(http.StatusOK, output)
 }
