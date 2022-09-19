@@ -1,15 +1,31 @@
-FROM golang:1.19.1-alpine3.16 AS build 
-RUN apk
-WORKDIR /go/WB_L0
+# FROM golang:1.19-alpine3.16
+# RUN mkdir models-service
+# WORKDIR /models-service
+# COPY ./ ./
+# RUN go build -o main ./cmd/main
+# CMD ["./cmd/main/main"]
 
-COPY Gopkg.lock Gopkg.toml ./  
-COPY vendor vendor  
-COPY cmd cmcd  
-COPY pkg pkg 
-COPY postgres postgres
+# FROM golang:1.19-alpine3.16 AS build 
+# RUN apk
+# WORKDIR /models-service
+# COPY ./ ./
 
-RUN go install ./...
+# RUN go install ./...
 
-FROM alpine:3.16  
-WORKDIR /usr/bin  
-COPY --from=build /go/bin .
+# FROM alpine:3.16  
+# WORKDIR /usr/bin  
+# COPY --from=build /go/bin .
+
+
+FROM golang:1.19-alpine3.16
+
+WORKDIR /usr/src/app
+
+# pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
+
+COPY . .
+RUN go build -v -o /usr/src/app/cmd/main ./...
+
+CMD ["./cmd/main/main"]

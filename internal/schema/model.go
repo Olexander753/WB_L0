@@ -3,8 +3,8 @@ package schema
 import "fmt"
 
 type Model struct {
-	Order_uid    string `json:"order_uid,omitempty"`
-	Track_number string `json:"track_number"`
+	Order_uid    string `json:"order_uid,omitempty" binding:"required"`
+	Track_number string `json:"track_number" binding:"required"`
 	Entry        string `json:"entry"`
 	Delivery     struct {
 		Id      string `json:"id"`
@@ -109,4 +109,12 @@ func (m *Model) PrintModel() string {
 	s += fmt.Sprintf(" <li>\"oof_shard\": \"%s\",</li></ul>", m.Oof_shard)
 	s += fmt.Sprintln("}</ul>")
 	return s
+}
+
+func (m *Model) Valid() error {
+	if m.Order_uid == "" {
+		err := fmt.Errorf("not valid model")
+		return err
+	}
+	return nil
 }

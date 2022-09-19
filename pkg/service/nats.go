@@ -39,14 +39,21 @@ func (es *NatsEventStore) Close() {
 }
 
 func (es *NatsEventStore) CreateModel() (err error) {
-	m := schema.Model{}
+
 	_, err = es.nc.Subscribe(key, func(msg *stan.Msg) {
+		m := schema.Model{}
 		json.Unmarshal(msg.Data, &m)
-		uid, err := es.model.InsertModel(context.Background(), m)
+		err := m.Valid()
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
+		} else {
+			uid, err := es.model.InsertModel(context.Background(), m)
+			if err != nil {
+				log.Println("Error insert model, error: ", err)
+			} else {
+				log.Println("Insert model, order_uid =", uid)
+			}
 		}
-		log.Println("Insert model, order_uid =", uid)
 	})
 	return
 }

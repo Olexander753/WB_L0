@@ -21,7 +21,7 @@ func main() {
 	//connect to postgresql db
 	db, err := repository.NewPostgres(cfg)
 	if err != nil {
-		log.Println("Failed connect to postgres, error: ", err)
+		log.Fatal("Failed connect to postgres, error: ", err)
 	}
 
 	//create cach
