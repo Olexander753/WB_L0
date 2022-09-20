@@ -17,7 +17,8 @@ type Config struct {
 		SSLMode  string `yaml:"sslmode"`
 	} `yaml:"postgres"`
 	Nats struct {
-		Address string `yaml:"address"`
+		Host string `yaml:"host"`
+		Port string `yaml:"port"`
 	} `yaml:"nats"`
 	Server struct {
 		Port string `yaml:"port"`

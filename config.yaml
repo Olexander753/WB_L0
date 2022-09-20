@@ -6,6 +6,7 @@ postgres:
   db: postgres
   sslmode: disable
 nats:
-  address: localhost:4223
+  host: 0.0.0.0
+  port: 4224
 server:
   port: 8080

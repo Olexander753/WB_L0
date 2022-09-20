@@ -15,3 +15,11 @@ services:
     restart: "always"
     ports:
       - 4224:4222
+  # model-service:
+  #   build: "."
+  #   # command: "model-service"
+  #   depends_on:
+  #     - "postgres"
+  #     - "nats"
+  #   ports:
+  #     - 80:8080

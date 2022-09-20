@@ -34,7 +34,7 @@ func main() {
 
 	//connect to nats
 	retry.ForeverSleep(2*time.Second, func(_ int) error {
-		es, err := service.NewNats(fmt.Sprintf("nats://%s", cfg.Nats.Address), repo)
+		es, err := service.NewNats(fmt.Sprintf("nats://%s:%s", cfg.Nats.Host, cfg.Nats.Port), repo)
 		if err != nil {
 			log.Println("Failed connect to nats, error: ", err)
 			return err
